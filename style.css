@@ -260,3 +260,22 @@ body {
 .html-file-name-input::placeholder, .css-file-name-input::placeholder, .js-file-name-input::placeholder {
     color: rgba(255, 255, 255, 0.7);
 }
+
+
+/* Styling for the creator-info text with rainbow animation */
+#creator-info {
+    font-size: 1.5rem; /* Adjust as needed */
+    font-weight: bold;
+    background: linear-gradient(to right, #ef5350, #f48fb1, #7e57c2, #2196f3, #26c6da, #43a047, #eeff41, #f9a825, #ff5722);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-text 10s ease infinite;
+    background-size: 200% 200%; /* Make the gradient larger than the text */
+}
+
+@keyframes rainbow-text {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
