@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Code Project Generator</title>
+    <!-- Link for Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Link for Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <!-- Link to your custom stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-white mb-4 pulse">
+                <i class="fas fa-code mr-4"></i>
+                Code Project Generator
+            </h1>
+            <p class="text-xl text-white opacity-90">Create stunning web projects with our colorful, modern code generator</p>
+        </div>
+
+        <!-- Code Editors Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <!-- HTML Editor -->
+            <div class="glass-card overflow-hidden">
+                <div class="card-header card-html">
+                    <i class="fab fa-html5 text-2xl mr-2"></i>
+                    HTML
+                    <div class="text-sm opacity-80">Structure & Content</div>
+                </div>
+                <div class="p-6">
+                    <textarea 
+                        id="htmlCode" 
+                        class="code-textarea html-editor" 
+                    ></textarea>
+                </div>
+            </div>
+
+            <!-- CSS Editor -->
+            <div class="glass-card overflow-hidden">
+                <div class="card-header card-css">
+                    <i class="fab fa-css3-alt text-2xl mr-2"></i>
+                    CSS
+                    <div class="text-sm opacity-80">Styling & Layout</div>
+                </div>
+                <div class="p-6">
+                    <textarea 
+                        id="cssCode" 
+                        class="code-textarea css-editor" 
+                    ></textarea>
+                </div>
+            </div>
+
+            <!-- JavaScript Editor -->
+            <div class="glass-card overflow-hidden">
+                <div class="card-header card-js">
+                    <i class="fab fa-js-square text-2xl mr-2"></i>
+                    JavaScript
+                    <div class="text-sm opacity-80">Interactivity & Logic</div>
+                </div>
+                <div class="p-6">
+                    <textarea 
+                        id="jsCode" 
+                        class="code-textarea js-editor" 
+                    ></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Folder Name Input and Generate Button -->
+        <div class="flex flex-col items-center justify-center space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
+            <input 
+                id="folderNameInput" 
+                type="text" 
+                class="input-field max-w-sm" 
+                placeholder="Enter project folder name (e.g., 'my-awesome-project')"
+            >
+            <button class="generate-btn" onclick="generateProject()">
+                <i class="fas fa-download mr-3"></i>
+                Generate Project
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Animation -->
+    <div id="loadingAnimation" class="loading">
+        <div class="spinner"></div>
+        <div class="text-center">Generating your project...</div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="success-message">
+        <i class="fas fa-check-circle mr-2"></i>
+        Project generated successfully!
+    </div>
+
+    <!-- Scripts for JSZip and FileSaver libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- Link to your custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
