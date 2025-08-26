@@ -1,84 +1,265 @@
-    // Function to generate and download the project
-    function generateProject() {
-        // Get HTML, CSS, and JavaScript code from textareas
-        // If a textarea is empty, use its placeholder text
-        const htmlCode = document.getElementById('htmlCode').value || document.getElementById('htmlCode').placeholder;
-        const cssCode = document.getElementById('cssCode').value || document.getElementById('cssCode').placeholder;
-        const jsCode = document.getElementById('jsCode').value || document.getElementById('jsCode').placeholder;
-        
-        // Get the folder name from the input field and trim any extra spaces
-        let folderName = document.getElementById('folderNameInput').value.trim();
+let htmlFileCounter = 1; // Keep track of additional HTML files for unique IDs
+let cssFileCounter = 1;  // Keep track of additional CSS files
+let jsFileCounter = 1;   // Keep track of additional JavaScript files
 
-        // If the folder name is empty, use 'web-project' as the default name
-        if (!folderName) {
-            folderName = 'web-project';
-        }
+// Function to add a new HTML file editor section
+function addHtmlFile() {
+    const additionalHtmlFilesContainer = document.getElementById('additionalHtmlFiles');
 
-        // Show the loading animation
-        document.getElementById('loadingAnimation').style.display = 'block';
+    const newHtmlCard = document.createElement('div');
+    newHtmlCard.className = 'glass-card overflow-hidden';
+    newHtmlCard.setAttribute('data-file-type', 'html'); // Added file type attribute
+    newHtmlCard.setAttribute('data-id', `htmlFile${htmlFileCounter}`);
 
-        // Create a new JSZip object
-        const zip = new JSZip();
-        
-        // Create a project folder with the name provided by the user
-        const projectFolder = zip.folder(folderName);
-        
-        // Add the files to the project folder
-        projectFolder.file('index.html', htmlCode);
-        projectFolder.file('style.css', cssCode);
-        projectFolder.file('script.js', jsCode);
+    newHtmlCard.innerHTML = `
+        <div class="card-header card-html flex justify-between items-center">
+            <span>
+                <i class="fab fa-html5 text-2xl mr-2"></i>
+                HTML File <span class="file-number">${htmlFileCounter}</span>
+            </span>
+            <button onclick="removeFile(this)" class="text-white text-lg hover:text-red-300 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6">
+            <input 
+                type="text" 
+                class="html-file-name-input" 
+                placeholder="e.g., about.html" 
+                value="file${htmlFileCounter}.html"
+            >
+            <textarea 
+                class="code-textarea html-editor" 
+            ></textarea>
+        </div>
+    `;
+    additionalHtmlFilesContainer.appendChild(newHtmlCard);
+    applyInteractiveEffects(newHtmlCard.querySelector('.code-textarea'));
+    htmlFileCounter++;
+}
 
-        // Generate and download the ZIP file asynchronously
-        zip.generateAsync({type: 'blob'}).then(function(content) {
-            // Hide the loading animation
-            document.getElementById('loadingAnimation').style.display = 'none';
-            
-            // Show the success message
-            const successMsg = document.getElementById('successMessage');
-            successMsg.style.display = 'block';
-            // Hide the success message after 3 seconds
-            setTimeout(() => {
-                successMsg.style.display = 'none';
-            }, 3000);
-            
-            // Download the ZIP file with the user-provided folder name
-            saveAs(content, `${folderName}.zip`);
-        }).catch(function(error) {
-            // Hide the loading animation if an error occurs
-            document.getElementById('loadingAnimation').style.display = 'none';
-            console.error('Error generating project:', error);
-            alert('Error generating project. Please try again.');
+// Function to add a new CSS file editor section
+function addCssFile() {
+    const additionalCssFilesContainer = document.getElementById('additionalCssFiles');
+
+    const newCssCard = document.createElement('div');
+    newCssCard.className = 'glass-card overflow-hidden';
+    newCssCard.setAttribute('data-file-type', 'css'); // Added file type attribute
+    newCssCard.setAttribute('data-id', `cssFile${cssFileCounter}`);
+
+    newCssCard.innerHTML = `
+        <div class="card-header card-css flex justify-between items-center">
+            <span>
+                <i class="fab fa-css3-alt text-2xl mr-2"></i>
+                CSS File <span class="file-number">${cssFileCounter}</span>
+            </span>
+            <button onclick="removeFile(this)" class="text-white text-lg hover:text-red-300 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6">
+            <input 
+                type="text" 
+                class="css-file-name-input" 
+                placeholder="e.g., component.css" 
+                value="style${cssFileCounter}.css"
+            >
+            <textarea 
+                class="code-textarea css-editor" 
+            ></textarea>
+        </div>
+    `;
+    additionalCssFilesContainer.appendChild(newCssCard);
+    applyInteractiveEffects(newCssCard.querySelector('.code-textarea'));
+    cssFileCounter++;
+}
+
+// Function to add a new JavaScript file editor section
+function addJsFile() {
+    const additionalJsFilesContainer = document.getElementById('additionalJsFiles');
+
+    const newJsCard = document.createElement('div');
+    newJsCard.className = 'glass-card overflow-hidden';
+    newJsCard.setAttribute('data-file-type', 'js'); // Added file type attribute
+    newJsCard.setAttribute('data-id', `jsFile${jsFileCounter}`);
+
+    newJsCard.innerHTML = `
+        <div class="card-header card-js flex justify-between items-center">
+            <span>
+                <i class="fab fa-js-square text-2xl mr-2"></i>
+                JS File <span class="file-number">${jsFileCounter}</span>
+            </span>
+            <button onclick="removeFile(this)" class="text-white text-lg hover:text-red-300 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6">
+            <input 
+                type="text" 
+                class="js-file-name-input" 
+                placeholder="e.g., utils.js" 
+                value="script${jsFileCounter}.js"
+            >
+            <textarea 
+                class="code-textarea js-editor" 
+            ></textarea>
+        </div>
+    `;
+    additionalJsFilesContainer.appendChild(newJsCard);
+    applyInteractiveEffects(newJsCard.querySelector('.code-textarea'));
+    jsFileCounter++;
+}
+
+// Helper function to apply interactive effects to textareas
+function applyInteractiveEffects(textarea) {
+    if (textarea) {
+        textarea.addEventListener('focus', function() {
+            this.closest('.glass-card').style.transform = 'scale(1.02)';
+        });
+        textarea.addEventListener('blur', function() {
+            this.closest('.glass-card').style.transform = 'scale(1)';
         });
     }
+}
 
-    // Add interactive effects once the DOM is fully loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add a glow effect to textareas on focus
-        const textareas = document.querySelectorAll('.code-textarea');
-        textareas.forEach(textarea => {
-            textarea.addEventListener('focus', function() {
-                this.parentElement.parentElement.style.transform = 'scale(1.02)';
-            });
-            
-            textarea.addEventListener('blur', function() {
-                this.parentElement.parentElement.style.transform = 'scale(1)';
-            });
-        });
 
-        // Add a press effect to the generate button
-        const btn = document.querySelector('.generate-btn');
-        btn.addEventListener('mousedown', function() {
-            this.style.transform = 'translateY(2px)';
-        });
-        
-        btn.addEventListener('mouseup', function() {
-            this.style.transform = 'translateY(-3px)';
-        });
-    });
+// Function to remove a file editor section (HTML, CSS, or JS)
+function removeFile(button) {
+    const cardToRemove = button.closest('.glass-card');
+    if (cardToRemove) {
+        cardToRemove.remove();
+    }
+}
 
-    // Keyboard shortcut for generating the project (Ctrl+Enter)
-    document.addEventListener('keydown', function(event) {
-        if (event.ctrlKey && event.key === 'Enter') {
-            generateProject();
+
+// Function to generate and download the project
+function generateProject() {
+    const mainHtmlCode = document.getElementById('htmlCode').value || '';
+    const cssCode = document.getElementById('cssCode').value || '';
+    const jsCode = document.getElementById('jsCode').value || '';
+    
+    let folderName = document.getElementById('folderNameInput').value.trim();
+
+    if (!folderName) {
+        folderName = 'web-project';
+    }
+
+    document.getElementById('loadingAnimation').style.display = 'block';
+
+    const zip = new JSZip();
+    const projectFolder = zip.folder(folderName);
+    
+    // Add main files if they have content
+    if (mainHtmlCode) {
+        projectFolder.file('index.html', mainHtmlCode);
+    }
+    if (cssCode) {
+        projectFolder.file('style.css', cssCode);
+    }
+    if (jsCode) {
+        projectFolder.file('script.js', jsCode);
+    }
+
+    // Process additional HTML files
+    document.querySelectorAll('#additionalHtmlFiles .glass-card').forEach(card => {
+        const fileNameInput = card.querySelector('.html-file-name-input');
+        const contentTextarea = card.querySelector('.code-textarea');
+        let fileName = fileNameInput.value.trim();
+        const fileContent = contentTextarea.value || '';
+
+        if (fileContent) {
+            if (!fileName) {
+                fileName = `untitled_html_${Date.now()}.html`;
+            }
+            if (!fileName.toLowerCase().endsWith('.html')) {
+                fileName += '.html';
+            }
+            projectFolder.file(fileName, fileContent);
         }
     });
+
+    // Process additional CSS files
+    document.querySelectorAll('#additionalCssFiles .glass-card').forEach(card => {
+        const fileNameInput = card.querySelector('.css-file-name-input');
+        const contentTextarea = card.querySelector('.code-textarea');
+        let fileName = fileNameInput.value.trim();
+        const fileContent = contentTextarea.value || '';
+
+        if (fileContent) {
+            if (!fileName) {
+                fileName = `untitled_css_${Date.now()}.css`;
+            }
+            if (!fileName.toLowerCase().endsWith('.css')) {
+                fileName += '.css';
+            }
+            projectFolder.file(fileName, fileContent);
+        }
+    });
+
+    // Process additional JavaScript files
+    document.querySelectorAll('#additionalJsFiles .glass-card').forEach(card => {
+        const fileNameInput = card.querySelector('.js-file-name-input');
+        const contentTextarea = card.querySelector('.code-textarea');
+        let fileName = fileNameInput.value.trim();
+        const fileContent = contentTextarea.value || '';
+
+        if (fileContent) {
+            if (!fileName) {
+                fileName = `untitled_js_${Date.now()}.js`;
+            }
+            if (!fileName.toLowerCase().endsWith('.js')) {
+                fileName += '.js';
+            }
+            projectFolder.file(fileName, fileContent);
+        }
+    });
+
+
+    // Check if any files were added to the project folder
+    if (Object.keys(projectFolder.files).length === 0) {
+        document.getElementById('loadingAnimation').style.display = 'none';
+        alert('कोई फ़ाइल जेनरेट नहीं की गई। कृपया कम से कम एक एडिटर में कोड दर्ज करें।');
+        return;
+    }
+
+    zip.generateAsync({type: 'blob'}).then(function(content) {
+        document.getElementById('loadingAnimation').style.display = 'none';
+        
+        const successMsg = document.getElementById('successMessage');
+        successMsg.style.display = 'block';
+        setTimeout(() => {
+            successMsg.style.display = 'none';
+        }, 3000);
+        
+        saveAs(content, `${folderName}.zip`);
+    }).catch(function(error) {
+        document.getElementById('loadingAnimation').style.display = 'none';
+        console.error('Error generating project:', error);
+        alert('Error generating project. Please try again.');
+    });
+}
+
+// Add interactive effects once the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Apply interactive effects to the initial main textareas
+    document.querySelectorAll('.code-textarea').forEach(textarea => {
+        applyInteractiveEffects(textarea);
+    });
+
+    // Add a press effect to the generate button
+    const btn = document.querySelector('.generate-btn');
+    btn.addEventListener('mousedown', function() {
+        this.style.transform = 'translateY(2px)';
+    });
+    
+    btn.addEventListener('mouseup', function() {
+        this.style.transform = 'translateY(-3px)';
+    });
+});
+
+// Keyboard shortcut for generating the project (Ctrl+Enter)
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 'Enter') {
+        generateProject();
+    }
+});
