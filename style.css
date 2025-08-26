@@ -4,6 +4,7 @@ body {
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     min-height: 100vh;
+    font-family: "Inter", sans-serif; /* Using Inter font as per instructions */
 }
 
 /* Gradient background animation keyframes */
@@ -40,7 +41,7 @@ body {
     font-size: 14px;
     resize: none;
     width: 100%;
-    height: 400px;
+    height: 300px; /* Adjusted height for potentially more HTML files */
     outline: none;
     transition: all 0.3s ease;
 }
@@ -84,7 +85,57 @@ body {
     transform: translateY(0);
 }
 
-/* Specific gradients for card headers */
+/* General styling for 'Add File' buttons */
+.add-file-btn {
+    border: none;
+    border-radius: 50px;
+    padding: 12px 30px; /* Slightly larger padding */
+    color: white;
+    font-weight: bold;
+    font-size: 17px; /* Slightly larger font */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: inline-flex; /* To align icon and text */
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px; /* Add some margin between buttons */
+}
+
+.add-file-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.add-file-btn:active {
+    transform: translateY(0);
+}
+
+/* Specific styling for 'Add HTML File' button */
+.add-html-btn {
+    background: linear-gradient(45deg, #23a6d5 0%, #23d5ab 100%); /* Brighter gradient */
+}
+.add-html-btn:hover {
+    background: linear-gradient(45deg, #23d5ab 0%, #23a6d5 100%);
+}
+
+/* Specific styling for 'Add CSS File' button */
+.add-css-btn {
+    background: linear-gradient(45deg, #e73c7e 0%, #ee7752 100%); /* Pink/Orange gradient */
+}
+.add-css-btn:hover {
+    background: linear-gradient(45deg, #ee7752 0%, #e73c7e 100%);
+}
+
+/* Specific styling for 'Add JavaScript File' button */
+.add-js-btn {
+    background: linear-gradient(45deg, #ffe66d 0%, #f5576c 100%); /* Yellow/Red gradient */
+}
+.add-js-btn:hover {
+    background: linear-gradient(45deg, #f5576c 0%, #ffe66d 100%);
+}
+
+/* Specific gradients for main card headers */
 .card-html {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
@@ -193,4 +244,19 @@ body {
     outline: none;
     background: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Styling for filename input for additional files */
+.html-file-name-input, .css-file-name-input, .js-file-name-input {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    padding: 8px;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.html-file-name-input::placeholder, .css-file-name-input::placeholder, .js-file-name-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
 }
