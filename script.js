@@ -148,16 +148,27 @@ function generateProject() {
 
     const zip = new JSZip();
     const projectFolder = zip.folder(folderName);
+
+    let htmlFilesWithContent = [];
+    let hasCssContent = false;
+    let hasJsContent = false;
     
-    // Add main files if they have content
+    // Add main HTML file if it has content
     if (mainHtmlCode) {
         projectFolder.file('index.html', mainHtmlCode);
+        htmlFilesWithContent.push({ name: 'index.html', content: mainHtmlCode });
     }
+    
+    // Add main CSS file if it has content
     if (cssCode) {
         projectFolder.file('style.css', cssCode);
+        hasCssContent = true;
     }
+    
+    // Add main JS file if it has content
     if (jsCode) {
         projectFolder.file('script.js', jsCode);
+        hasJsContent = true;
     }
 
     // Process additional HTML files
@@ -175,6 +186,7 @@ function generateProject() {
                 fileName += '.html';
             }
             projectFolder.file(fileName, fileContent);
+            htmlFilesWithContent.push({ name: fileName, content: fileContent });
         }
     });
 
@@ -193,6 +205,7 @@ function generateProject() {
                 fileName += '.css';
             }
             projectFolder.file(fileName, fileContent);
+            hasCssContent = true;
         }
     });
 
@@ -211,6 +224,7 @@ function generateProject() {
                 fileName += '.js';
             }
             projectFolder.file(fileName, fileContent);
+            hasJsContent = true;
         }
     });
 
@@ -222,6 +236,24 @@ function generateProject() {
         return;
     }
 
+    // New logic: If only one HTML file with content, and no CSS/JS content, download directly
+    if (htmlFilesWithContent.length === 1 && !hasCssContent && !hasJsContent) {
+        const singleHtmlFile = htmlFilesWithContent[0];
+        const blob = new Blob([singleHtmlFile.content], { type: 'text/html' });
+        document.getElementById('loadingAnimation').style.display = 'none';
+        
+        const successMsg = document.getElementById('successMessage');
+        successMsg.style.display = 'block';
+        setTimeout(() => {
+            successMsg.style.display = 'none';
+        }, 3000);
+
+        saveAs(blob, singleHtmlFile.name);
+        return; // Exit function after direct download
+    }
+
+
+    // Otherwise, generate and download the ZIP file asynchronously
     zip.generateAsync({type: 'blob'}).then(function(content) {
         document.getElementById('loadingAnimation').style.display = 'none';
         
