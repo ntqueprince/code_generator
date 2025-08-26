@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Colorful Code Project Generator</title>
+    <!-- Link for Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Link for Font Awesome icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <!-- Link to your custom stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
         <div class="text-center mb-12">
             <h1 class="text-5xl font-bold text-white mb-4 pulse">
                 <i class="fas fa-code mr-4"></i>
                 Code Project Generator
             </h1>
+            <div id="creator-info" class="text-xl font-bold mb-8">Created by Shivang</div>
             <p class="text-xl text-white opacity-90">Create stunning web projects with our colorful, modern code generator</p>
         </div>
 
+        <!-- Main Code Editors Grid (index.html, style.css, script.js) -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <!-- HTML Editor (Main Index) -->
             <div class="glass-card overflow-hidden">
                 <div class="card-header card-html">
                     <i class="fab fa-html5 text-2xl mr-2"></i>
@@ -33,6 +40,7 @@
                 </div>
             </div>
 
+            <!-- CSS Editor (Main Style) -->
             <div class="glass-card overflow-hidden">
                 <div class="card-header card-css">
                     <i class="fab fa-css3-alt text-2xl mr-2"></i>
@@ -47,6 +55,7 @@
                 </div>
             </div>
 
+            <!-- JavaScript Editor (Main Script) -->
             <div class="glass-card overflow-hidden">
                 <div class="card-header card-js">
                     <i class="fab fa-js-square text-2xl mr-2"></i>
@@ -62,13 +71,16 @@
             </div>
         </div>
 
+        <!-- Additional Files Section -->
         <div class="mb-12 p-6 glass-card">
             <h2 class="text-3xl font-bold text-white mb-6 text-center">Additional Files</h2>
 
+            <!-- Additional HTML Files Sub-Section -->
             <div class="mb-8">
                 <h3 class="text-2xl font-semibold text-white mb-4">HTML Files</h3>
                 <div id="additionalHtmlFiles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    </div>
+                    <!-- Additional HTML files will be added here dynamically -->
+                </div>
                 <div class="text-center mt-6">
                     <button class="add-file-btn add-html-btn" onclick="addHtmlFile()">
                         <i class="fas fa-plus mr-2"></i>
@@ -77,10 +89,12 @@
                 </div>
             </div>
 
+            <!-- Additional CSS Files Sub-Section -->
             <div class="mb-8">
                 <h3 class="text-2xl font-semibold text-white mb-4">CSS Files</h3>
                 <div id="additionalCssFiles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    </div>
+                    <!-- Additional CSS files will be added here dynamically -->
+                </div>
                 <div class="text-center mt-6">
                     <button class="add-file-btn add-css-btn" onclick="addCssFile()">
                         <i class="fas fa-plus mr-2"></i>
@@ -89,10 +103,12 @@
                 </div>
             </div>
 
+            <!-- Additional JavaScript Files Sub-Section -->
             <div>
                 <h3 class="text-2xl font-semibold text-white mb-4">JavaScript Files</h3>
                 <div id="additionalJsFiles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    </div>
+                    <!-- Additional JS files will be added here dynamically -->
+                </div>
                 <div class="text-center mt-6">
                     <button class="add-file-btn add-js-btn" onclick="addJsFile()">
                         <i class="fas fa-plus mr-2"></i>
@@ -102,6 +118,7 @@
             </div>
         </div>
         
+        <!-- Folder Name Input and Generate Button -->
         <div class="flex flex-col items-center justify-center space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0 mt-12">
             <input 
                 id="folderNameInput" 
@@ -116,18 +133,22 @@
         </div>
     </div>
 
+    <!-- Loading Animation -->
     <div id="loadingAnimation" class="loading">
         <div class="spinner"></div>
         <div class="text-center">Generating your project...</div>
     </div>
 
+    <!-- Success Message -->
     <div id="successMessage" class="success-message">
         <i class="fas fa-check-circle mr-2"></i>
         Project generated successfully!
     </div>
 
+    <!-- Scripts for JSZip and FileSaver libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- Link to your custom JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
